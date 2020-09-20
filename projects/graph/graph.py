@@ -94,23 +94,28 @@ class Graph:
         
         return print("dft recursive", visited)
 
-    def bfs(self, starting_vertex, destination_vertex):
+    def bfs(self, starting_vertex, destination_vertex, visited=set()):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
 
-        visited = set()
-        cur_node = starting_vertex
-        visited.add(cur_node)
+        if destination_vertex in visited:
+            return visited
 
-        while destination_vertex not in visited:
-            for x in self.vertices[cur_node]:
-                if x == destination_vertex:
-                    visited.add(x)
-                    return visited
-                else:
+        for x in self.vertices[starting_vertex]:
+            if x > list(self.vertices[starting_vertex])[0]:
+                return
+            else:
+                visited.add(x)
+                self.bfs(x, destination_vertex, visited)
+                
+
+                
+
+        
+                    
                                    
     def dfs(self, starting_vertex, destination_vertex):
         """
