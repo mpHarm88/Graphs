@@ -48,7 +48,8 @@ class Graph:
                 for x in neighbors:
                     q.enqueue(x)
           
-        print(visited)
+        for x in visited:
+            print(x)
 
 
 
@@ -66,14 +67,11 @@ class Graph:
             curr_node = s.pop()
 
             if curr_node not in visited:
+                print(curr_node)
                 visited.add(curr_node)
                 neighbors = self.vertices[curr_node]
                 for x in neighbors:
                     s.push(x)
-
-        print(visited)
-
-
 
     def dft_recursive(self, starting_vertex, visited=set()):
         """
@@ -87,36 +85,50 @@ class Graph:
         
         if starting_vertex not in visited:
             curr_node = starting_vertex
+            print(starting_vertex)
             visited.add(curr_node)
 
             for x in self.vertices[curr_node]:
                 self.dft_recursive(x, visited)
-        
-        return print("dft recursive", visited)
 
-    def bfs(self, starting_vertex, destination_vertex, visited=set()):
+    def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
 
-        if destination_vertex in visited:
-            return visited
+        q = []
+        path = []
+        visited = set()
+        q.append(starting_vertex)
+        path.append(starting_vertex)
+        visited.add(starting_vertex)
 
-        for x in self.vertices[starting_vertex]:
-            if x > list(self.vertices[starting_vertex])[0]:
-                return
+        while len(q) > 0:
+            val = q.pop(0)
+
+            if len(self.vertices[val]) == 1:
+                temp = list(self.vertices[val])[0]
+                q.append(temp)
+                path.append(temp)
+                visited.add(temp)
             else:
-                visited.add(x)
-                self.bfs(x, destination_vertex, visited)
+                temp = list(self.vertices[val])
                 
+                for x in temp:
+                    curr = x
+                    while curr not in visited:
+                        visited.add(curr)
+                        if destination_vertex in self.vertices[curr]:
+                            path.append(curr)
+                            path.append(destination_vertex)
+                        else:
+                            continue
 
-                
 
-        
-                    
-                                   
+        return path
+                                                  
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
